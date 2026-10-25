@@ -1,0 +1,15 @@
+# Optional Render blueprint. Local use is the supported path: the free instance
+# is memory-constrained for PyTorch, and its disk is ephemeral. See the README.
+services:
+  - type: web
+    name: rag-docs-assistant
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: ANONYMIZED_TELEMETRY
+        value: "False"

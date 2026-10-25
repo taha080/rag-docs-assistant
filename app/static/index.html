@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <title>rag-docs-assistant</title>
+    <meta
+      name="description"
+      content="Ask questions about your documents. Answers cite the file, page, and passage they came from."
+    />
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,560;9..144,650&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <a class="skip" href="#question">Skip to the question</a>
+    <header class="top">
+      <div class="brand">
+        <p class="eyebrow">Local retrieval</p>
+        <h1>rag-docs-assistant</h1>
+      </div>
+      <p class="stamp" id="health" role="status">Checking the server</p>
+    </header>
+
+    <main>
+      <section class="library" aria-labelledby="library-heading">
+        <div class="panel-head">
+          <h2 id="library-heading">Library</h2>
+          <p id="library-count">No documents yet</p>
+        </div>
+
+        <form id="key-form" class="key-form">
+          <label for="api-key">Groq API key</label>
+          <div class="key-row">
+            <input
+              id="api-key"
+              name="api-key"
+              type="password"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="gsk_…"
+              aria-describedby="key-hint"
+            />
+            <button type="button" id="forget-key" class="ghost">Forget</button>
+          </div>
+          <p id="key-hint" class="hint">
+            Kept in this browser tab only. Sent with each question, never written to the server.
+          </p>
+        </form>
+
+        <form id="upload-form">
+          <label class="dropzone" id="dropzone">
+            <input
+              id="file-input"
+              class="file-input"
+              type="file"
+              accept=".pdf,.txt,.md,.markdown,application/pdf,text/plain,text/markdown"
+              multiple
+            />
+            <span class="drop-title">Drop a PDF, text, or Markdown file</span>
+            <span class="drop-sub">or browse. Up to 10 MB each.</span>
+          </label>
+        </form>
+
+        <ul id="documents" class="documents" aria-live="polite"></ul>
+      </section>
+
+      <section class="conversation" aria-labelledby="conversation-heading">
+        <div class="panel-head">
+          <h2 id="conversation-heading">Ask</h2>
+          <button type="button" id="clear-chat" class="ghost">Clear chat</button>
+        </div>
+        <div id="notice" class="notice" role="status" hidden></div>
+        <div id="empty" class="empty">
+          <p class="eyebrow">Citations included</p>
+          <h3>Answers point back to the passage.</h3>
+          <p>
+            Upload a document, then ask a question. The reply lists the file name, the page when the
+            file has pages, and the chunk the answer was drawn from.
+          </p>
+        </div>
+        <ol id="thread" class="thread" aria-live="polite"></ol>
+        <form id="ask-form" class="composer">
+          <div class="prompts" aria-label="Example questions">
+            <button type="button" data-prompt="What are the main points?">Main points</button>
+            <button type="button" data-prompt="Summarize this in a few sentences.">Summarize</button>
+            <button type="button" data-prompt="Which dates or numbers does the document mention?">Dates and numbers</button>
+          </div>
+          <label class="sr-only" for="question">Question</label>
+          <textarea
+            id="question"
+            name="question"
+            rows="3"
+            maxlength="4000"
+            required
+            placeholder="Ask something the documents can answer"
+          ></textarea>
+          <div class="composer-row">
+            <p class="hint">Enter to ask. Shift+Enter for a new line.</p>
+            <button type="submit" id="ask-button">Ask</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>Embeddings run on this machine. Groq writes the answer. Passages stay in the citation list.</p>
+    </footer>
+    <script src="/static/app.js"></script>
+    <noscript>This page needs JavaScript to upload documents and ask questions.</noscript>
+  </body>
+</html>
